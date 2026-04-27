@@ -17,7 +17,14 @@
 </head>
 <body>
     <pre id="aquarium">Loading aquarium...</pre>
+    <button onclick="addFish()" style="padding: 10px; cursor: pointer;">tap to add</button>
 
+    <script>
+    async function addFish() {
+        await fetch('http://localhost:8080/add_fish');
+        console.log("Fish added!");
+    }
+    </script>
     <script>
         async function updateAquarium() {
             try {

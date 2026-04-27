@@ -72,7 +72,7 @@ std::unique_ptr<Entity> createFish(std::string s, int width, int height){
 
 int main() {
     // 1. Создаем мир (размеры можно чуть уменьшить для веба)
-    World world(120, 30); 
+    World world(120, 60); 
     
     // Добавляем начальных сущностей (как в твоем старом main)
     // world.addEntity(std::make_unique<fish1>(120, 30)); 
@@ -106,6 +106,17 @@ int main() {
         }
         res.set_header("Access-Control-Allow-Origin", "*"); // Чтобы браузер не ругался
         res.set_content(canvas.getFrameAsString(), "text/html");
+    });
+    // Эндпоинт для добавления рыбки
+    svr.Get("/add_fish", [&](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lock(world_mutex);
+        
+        // Создаем рыбку (можно даже из параметров запроса брать тип)
+        auto new_fish = std::make_unique<fish5>(world.width(), world.height());
+        world.addEntity(std::move(new_fish));
+        
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_content("Рыбка добавлена!", "text/plain; charset=utf-8");
     });
 
     // 4. Запуск сервера
