@@ -21,55 +21,6 @@
 // в тот самый момент, когда мир обновляет положение рыбок
 std::mutex world_mutex;
 
-
-std::string chooseEntity(){
-    std::string f;
-    bool flag_s = true;
-    std::cout << "choose from these:" << std::endl;
-    std::cout << "small shark -1 | jellyfish -2 | fish -3 | small fish -4 | fishes -5 | seahorse -6 | seaweed -7 | 42" << std::endl;
-    std::getline(std::cin, f);
-    while (flag_s){      
-        if (f=="1" || f=="2" || f=="3" || f=="4" || f=="5" || f=="6" || f=="7" || f=="42"){
-            flag_s = false;
-        }else{
-            std::cout << "enter correct command pls" << std::endl;
-            std::getline(std::cin, f);
-        }
-    }
-    return f;
-}
-std::unique_ptr<Entity> createFish(std::string s, int width, int height){
-    if (s=="1"){
-        std::unique_ptr<fish1> entity = std::make_unique<fish1>(width, height);
-        return entity;
-    }else if(s=="4"){
-        std::unique_ptr<fish2> entity = std::make_unique<fish2>(width, height);
-        return entity;
-    }else if(s=="3"){
-        std::unique_ptr<fish3> entity = std::make_unique<fish3>(width, height);
-        return entity;
-    }else if(s=="5"){
-        std::unique_ptr<fish4> entity = std::make_unique<fish4>(width, height);
-        return entity;
-    }else if(s=="2"){
-        std::unique_ptr<fish5> entity = std::make_unique<fish5>(width, height);
-        return entity;
-    }else if(s=="6"){
-        std::unique_ptr<fish6> entity = std::make_unique<fish6>(width, height);
-        return entity;
-    }else if(s=="42"){
-        std::unique_ptr<fish7> entity = std::make_unique<fish7>(width, height);
-        return entity;
-    }else if(s=="7"){
-        std::unique_ptr<weed1> entity = std::make_unique<weed1>(width, height);
-        return entity;
-    }else{
-        std::cout << "net takoi entity, add basic entity" << std::endl;
-        std::unique_ptr<fish2> entity = std::make_unique<fish2>(width, height);
-        return entity;
-    }
-}
-
 int main() {
     // 1. Создаем мир (размеры можно чуть уменьшить для веба)
     World world(120, 60); 
@@ -108,16 +59,42 @@ int main() {
         res.set_content(canvas.getFrameAsString(), "text/html");
     });
     // Эндпоинт для добавления рыбки
-    svr.Get("/add_fish", [&](const httplib::Request& req, httplib::Response& res) {
+    svr.Get("/add_fish1", [&](const httplib::Request& req, httplib::Response& res) {
         std::lock_guard<std::mutex> lock(world_mutex);
-        
-        // Создаем рыбку (можно даже из параметров запроса брать тип)
-        auto new_fish = std::make_unique<fish5>(world.width(), world.height());
+        auto new_fish = std::make_unique<fish1>(world.width(), world.height());
         world.addEntity(std::move(new_fish));
-        
         res.set_header("Access-Control-Allow-Origin", "*");
         res.set_content("Рыбка добавлена!", "text/plain; charset=utf-8");
     });
+    svr.Get("/add_fish2", [&](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lock(world_mutex);
+        auto new_fish = std::make_unique<fish2>(world.width(), world.height());
+        world.addEntity(std::move(new_fish));
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_content("Рыбка добавлена!", "text/plain; charset=utf-8");
+    });
+    svr.Get("/add_fish3", [&](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lock(world_mutex);
+        auto new_fish = std::make_unique<fish3>(world.width(), world.height());
+        world.addEntity(std::move(new_fish));
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_content("Рыбка добавлена!", "text/plain; charset=utf-8");
+    });
+    svr.Get("/add_fish4", [&](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lock(world_mutex);
+        auto new_fish = std::make_unique<fish4>(world.width(), world.height());
+        world.addEntity(std::move(new_fish));
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_content("Рыбка добавлена!", "text/plain; charset=utf-8");
+    });
+    svr.Get("/add_fish5", [&](const httplib::Request& req, httplib::Response& res) {
+        std::lock_guard<std::mutex> lock(world_mutex);
+        auto new_fish = std::make_unique<fish5>(world.width(), world.height());
+        world.addEntity(std::move(new_fish));
+        res.set_header("Access-Control-Allow-Origin", "*");
+        res.set_content("Рыбка добавлена!", "text/plain; charset=utf-8");
+    });
+
 
     // 4. Запуск сервера
     std::cout << "Aquarium server started at http://localhost:8080" << std::endl;

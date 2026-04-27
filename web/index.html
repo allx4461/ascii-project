@@ -17,14 +17,38 @@
 </head>
 <body>
     <pre id="aquarium">Loading aquarium...</pre>
-    <button onclick="addFish()" style="padding: 10px; cursor: pointer;">tap to add</button>
+    <button onclick="addFish1()" style="padding: 10px; cursor: pointer;">fish1</button>
+    <button onclick="addFish2()" style="padding: 10px; cursor: pointer;">fish2</button>
+    <button onclick="addFish3()" style="padding: 10px; cursor: pointer;">fish3</button>
+    <button onclick="addFish4()" style="padding: 10px; cursor: pointer;">fish4</button>
+    <button onclick="addFish5()" style="padding: 10px; cursor: pointer;">fish5</button>
+    
+    
 
     <script>
-    async function addFish() {
-        await fetch('http://localhost:8080/add_fish');
+    async function addFish1() {
+        await fetch('http://localhost:8080/add_fish1');
+        console.log("Fish added!");
+    }
+    async function addFish2() {
+        await fetch('http://localhost:8080/add_fish2');
+        console.log("Fish added!");
+    }
+    async function addFish3() {
+        await fetch('http://localhost:8080/add_fish3');
+        console.log("Fish added!");
+    }
+    async function addFish4() {
+        await fetch('http://localhost:8080/add_fish4');
+        console.log("Fish added!");
+    }
+    async function addFish5() {
+        await fetch('http://localhost:8080/add_fish5');
         console.log("Fish added!");
     }
     </script>
+
+
     <script>
         async function updateAquarium() {
             try {
