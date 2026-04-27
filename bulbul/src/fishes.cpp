@@ -2,7 +2,7 @@
 #include <cstdlib>
 
 
-fish1::fish1(int worldWidth, int worldHeight)
+fish4::fish4(int worldWidth, int worldHeight)
     : Actor(
         (rand() % (worldWidth-19)),   // x
         (rand() % (worldHeight-7))+2,  // y
@@ -18,7 +18,7 @@ fish1::fish1(int worldWidth, int worldHeight)
     )
 {}
 
-fish2::fish2(int worldWidth, int worldHeight)
+fish5::fish5(int worldWidth, int worldHeight)
     : Actor(
         (rand() % (worldWidth-9)),   // x
         (rand() % (worldHeight-6))+2,  // y
@@ -33,7 +33,7 @@ fish2::fish2(int worldWidth, int worldHeight)
 {}
 
 
-fish3::fish3(int worldWidth, int worldHeight)
+fish6::fish6(int worldWidth, int worldHeight)
     : Actor(
         (rand() % (worldWidth-19)),   // x
         (rand() % (worldHeight-7))+2,  // y
@@ -50,7 +50,7 @@ fish3::fish3(int worldWidth, int worldHeight)
 {}
 
 
-fish4::fish4(int worldWidth, int worldHeight)
+fish1::fish1(int worldWidth, int worldHeight)
     : Actor(
         (rand() % (worldWidth-13)),   // x
         (rand() % (worldHeight-9))+2 ,  // y
@@ -67,7 +67,7 @@ fish4::fish4(int worldWidth, int worldHeight)
     )
 {}
 
-fish5::fish5(int worldWidth, int worldHeight)
+fish2::fish2(int worldWidth, int worldHeight)
     : Actor(
         (rand() % (worldWidth-6)),   // x
         (rand() % (worldHeight-5-2))+2 ,  // y
@@ -80,7 +80,7 @@ fish5::fish5(int worldWidth, int worldHeight)
 " )))) "})
 {}
 
-fish6::fish6(int worldWidth, int worldHeight)
+fish3::fish3(int worldWidth, int worldHeight)
     : Actor(
         (rand() % (worldWidth-5)),   // x
         (rand() % (worldHeight-4-2))+2 ,  // y

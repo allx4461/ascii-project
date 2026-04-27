@@ -12,10 +12,10 @@ app.add_middleware(
 )
 
 @app.get("/excuse")
-def get_excuse()-> str:
+def get_excuse():
     try:
         response = requests.get("https://excuser-three.vercel.app/v1/excuse")
         data = response.json()
-        return {"excuse me!": data[0]['excuse']}
+        return {"excuse": data[0]['excuse']}
     except:
-        return {"excuse me!": "something went wrong :("}
+        return {"excuse": "something went wrong :("}

@@ -1,75 +1,82 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>ASCII Aquarium</title>
+    <title>Мой Микросервисный Аквариум</title>
     <style>
-        body { background-color: #050505; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        body { 
+            background-color: #050505; 
+            color: #00ff00; /* Зеленый "хакерский" цвет */
+            font-family: 'Courier New', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+        }
         #aquarium { 
-            font-family: 'Courier New', monospace; 
-            font-size: 14px; 
-            line-height: 1.1; 
             background: #000;
             padding: 20px;
-            border: 2px solid #222;
+            border: 2px solid #333;
+            white-space: pre; /* ОЧЕНЬ ВАЖНО для переноса строк */
+            margin-bottom: 20px;
+            min-height: 300px;
+        }
+        .controls { margin-bottom: 20px; }
+        button { padding: 8px 15px; cursor: pointer; background: #222; color: white; border: 1px solid #444; }
+        button:hover { background: #444; }
+        #excuse-box {
+            color: #ffcc00;
+            font-style: italic;
+            max-width: 600px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <pre id="aquarium">Loading aquarium...</pre>
-    <button onclick="addFish1()" style="padding: 10px; cursor: pointer;">fish1</button>
-    <button onclick="addFish2()" style="padding: 10px; cursor: pointer;">fish2</button>
-    <button onclick="addFish3()" style="padding: 10px; cursor: pointer;">fish3</button>
-    <button onclick="addFish4()" style="padding: 10px; cursor: pointer;">fish4</button>
-    <button onclick="addFish5()" style="padding: 10px; cursor: pointer;">fish5</button>
-    <p id="excuse-text" style="color: #ffcc00; font-style: italic;">are there any excuses?</p>
-    
+
+    <div class="controls">
+        <button onclick="addFish('1')">Fish 1</button>
+        <button onclick="addFish('2')">Fish 2</button>
+        <button onclick="addFish('3')">Fish 3</button>
+    </div>
+
+    <pre id="aquarium">Загрузка аквариума...</pre>
+
+    <div id="excuse-box">Рыбы думают над оправданием...</div>
 
     <script>
-    async function addFish1() {
-        await fetch('http://localhost:8080/add_fish1');
-        console.log("Fish added!");
-    }
-    async function addFish2() {
-        await fetch('http://localhost:8080/add_fish2');
-        console.log("Fish added!");
-    }
-    async function addFish3() {
-        await fetch('http://localhost:8080/add_fish3');
-        console.log("Fish added!");
-    }
-    async function addFish4() {
-        await fetch('http://localhost:8080/add_fish4');
-        console.log("Fish added!");
-    }
-    async function addFish5() {
-        await fetch('http://localhost:8080/add_fish5');
-        console.log("Fish added!");
-    }
-    async function GetExcuse() {
-        try {
-        const response=fetch('http://localhost:5000/get_excuse');
-        const data = await response.json();
-        document.getElementById('excuse-text').innerText = data.excuse; 
-        } catch (err) {
-            console.error("Python server offline");
-        }}
-    setInterval(GetExcuse, 10000);
-    GetExcuse();
-
-    </script>
-
-
-    <script>
+        
         async function updateAquarium() {
             try {
                 const response = await fetch('http://localhost:8080/get_frame');
-                const html = await response.text();
-                document.getElementById('aquarium').innerHTML = html;
-            } catch (err) {
-                console.error("Server is not responding");
+                const text = await response.text();
+                document.getElementById('aquarium').innerHTML = text;
+            } catch (e) {
+                document.getElementById('aquarium').innerText = "Ошибка: C++ сервер не отвечает";
             }
         }
+
+
+        async function addFish(id) {
+            await fetch(`http://localhost:8080/add_fish${id}`);
+        }
+
+        
+        async function updateExcuse() {
+            try {
+                const response = await fetch('http://localhost:5000/excuse');
+                const data = await response.json();
+                document.getElementById('excuse-box').innerText = "Оправдание дня: " + data.excuse;
+            } catch (e) {
+                document.getElementById('excuse-box').innerText = "Python-сервис отдыхает...";
+            }
+        }
+
+        
         setInterval(updateAquarium, 100);
+        setInterval(updateExcuse, 10000);
+        updateExcuse(); // Вызвать один раз сразу
     </script>
 </body>
 </html>

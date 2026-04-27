@@ -20,7 +20,7 @@ std::mutex world_mutex;
 
 int main() {
     //
-    World world(90, 60); 
+    World world(120, 30); 
     Canvas canvas(world.width(), world.height());
     srand(time(0));
     auto entity1 = std::make_unique<fish1>(world.width(), world.height());
@@ -51,6 +51,8 @@ int main() {
         }
         res.set_header("Access-Control-Allow-Origin", "*"); // Чтобы браузер не ругался
         res.set_content(canvas.getFrameAsString(), "text/html");
+        std::string beautiful_frame = "<pre>" + canvas.getFrameAsString() + "</pre>";
+        res.set_content(beautiful_frame, "text/html");
     });
     //
     svr.Get("/add_fish1", [&](const httplib::Request& req, httplib::Response& res) {
