@@ -4,7 +4,6 @@
     <title>ASCII Aquarium</title>
     <style>
         body { background-color: #050505; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        /* Важно: monospace сохраняет структуру ASCII-арта */
         #aquarium { 
             font-family: 'Courier New', monospace; 
             font-size: 14px; 
@@ -22,7 +21,7 @@
     <button onclick="addFish3()" style="padding: 10px; cursor: pointer;">fish3</button>
     <button onclick="addFish4()" style="padding: 10px; cursor: pointer;">fish4</button>
     <button onclick="addFish5()" style="padding: 10px; cursor: pointer;">fish5</button>
-    
+    <p id="excuse-text" style="color: #ffcc00; font-style: italic;">are there any excuses?</p>
     
 
     <script>
@@ -46,13 +45,23 @@
         await fetch('http://localhost:8080/add_fish5');
         console.log("Fish added!");
     }
+    async function GetExcuse() {
+        try {
+        const response=fetch('http://localhost:5000/get_excuse');
+        const data = await response.json();
+        document.getElementById('excuse-text').innerText = data.excuse; 
+        } catch (err) {
+            console.error("Python server offline");
+        }}
+    setInterval(GetExcuse, 10000);
+    GetExcuse();
+
     </script>
 
 
     <script>
         async function updateAquarium() {
             try {
-                // Стучимся к нашему C++ серверу
                 const response = await fetch('http://localhost:8080/get_frame');
                 const html = await response.text();
                 document.getElementById('aquarium').innerHTML = html;
@@ -60,7 +69,6 @@
                 console.error("Server is not responding");
             }
         }
-        // Обновляем кадр 10 раз в секунду
         setInterval(updateAquarium, 100);
     </script>
 </body>

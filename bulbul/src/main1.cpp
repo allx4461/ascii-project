@@ -16,17 +16,11 @@
 #include "entity.h"
 #include "bubble.h"
 
-
-// Мьютекс нужен, чтобы сервер не пытался прочитать кадр 
-// в тот самый момент, когда мир обновляет положение рыбок
 std::mutex world_mutex;
 
 int main() {
-    // 1. Создаем мир (размеры можно чуть уменьшить для веба)
-    World world(120, 60); 
-    
-    // Добавляем начальных сущностей (как в твоем старом main)
-    // world.addEntity(std::make_unique<fish1>(120, 30)); 
+    //
+    World world(90, 60); 
     Canvas canvas(world.width(), world.height());
     srand(time(0));
     auto entity1 = std::make_unique<fish1>(world.width(), world.height());
@@ -34,7 +28,7 @@ int main() {
 
     world.addEntity(std::move(entity1));
     world.addEntity(std::move(entity2));
-    // 2. Поток симуляции (двигаем рыбок в фоне)
+    //
     std::thread simulation_thread([&world]() {
         while (true) {
             {
@@ -45,10 +39,10 @@ int main() {
         }
     });
 
-    // 3. Настройка веб-сервера
+    //
     httplib::Server svr;
 
-    // Эндпоинт для получения кадра
+    //
     svr.Get("/get_frame", [&](const httplib::Request&, httplib::Response& res) {
         Canvas canvas(world.width(), world.height());
         {
@@ -58,7 +52,7 @@ int main() {
         res.set_header("Access-Control-Allow-Origin", "*"); // Чтобы браузер не ругался
         res.set_content(canvas.getFrameAsString(), "text/html");
     });
-    // Эндпоинт для добавления рыбки
+    //
     svr.Get("/add_fish1", [&](const httplib::Request& req, httplib::Response& res) {
         std::lock_guard<std::mutex> lock(world_mutex);
         auto new_fish = std::make_unique<fish1>(world.width(), world.height());
@@ -95,8 +89,7 @@ int main() {
         res.set_content("Рыбка добавлена!", "text/plain; charset=utf-8");
     });
 
-
-    // 4. Запуск сервера
+    //
     std::cout << "Aquarium server started at http://localhost:8080" << std::endl;
     svr.listen("0.0.0.0", 8080);
 
