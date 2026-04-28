@@ -49,7 +49,7 @@
         
         async function updateAquarium() {
             try {
-                const response = await fetch('http://localhost:8080/get_frame');
+                const response = await fetch('http://185.189.14.184:8080/get_frame');
                 const text = await response.text();
                 document.getElementById('aquarium').innerHTML = text;
             } catch (e) {
@@ -59,13 +59,13 @@
 
 
         async function addFish(id) {
-            await fetch(`http://localhost:8080/add_fish${id}`);
+            await fetch(`http://185.189.14.184:8080/add_fish${id}`);
         }
 
         
         async function updateExcuse() {
             try {
-                const response = await fetch('http://localhost:5000/excuse');
+                const response = await fetch('http://185.189.14.184:5000/excuse');
                 const data = await response.json();
                 document.getElementById('excuse-box').innerText = "Оправдание дня: " + data.excuse;
             } catch (e) {
