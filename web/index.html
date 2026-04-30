@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Мой Микросервисный Аквариум</title>
+    <title>aquarium</title>
     <style>
         body { 
             background-color: #050505; 
@@ -41,9 +41,9 @@
         <button onclick="addFish('3')">Fish 3</button>
     </div>
 
-    <pre id="aquarium">Загрузка аквариума...</pre>
+    <pre id="aquarium">...</pre>
 
-    <div id="excuse-box">Рыбы думают над оправданием...</div>
+    <div id="excuse-box">...</div>
 
     <script>
         
@@ -76,7 +76,7 @@
         
         setInterval(updateAquarium, 100);
         setInterval(updateExcuse, 10000);
-        updateExcuse(); // Вызвать один раз сразу
+        updateExcuse();
     </script>
 </body>
 </html>
